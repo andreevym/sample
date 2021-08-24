@@ -10,9 +10,9 @@ WORKDIR /app
 # COPY go.sum ./
 # RUN go mod download
 
-COPY *.go ./
+COPY . /app
 
-RUN go build -o /app
+RUN go build -o goapp
 
 ##
 ## Deploy
@@ -22,10 +22,10 @@ FROM gcr.io/distroless/base-debian10
 
 WORKDIR /
 
-COPY --from=build /app /app
+COPY --from=build /app/goapp /app
 
 EXPOSE 8080
 
 USER nonroot:nonroot
 
-ENTRYPOINT ["/app]
+ENTRYPOINT ["/app/goapp"]
